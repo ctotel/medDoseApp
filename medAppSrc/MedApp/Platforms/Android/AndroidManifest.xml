@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/appicon"
+        android:roundIcon="@mipmap/appicon_round"
+        android:supportsRtl="true" />
+
+    <!-- Network state (used by Plugin.LocalNotification internally) -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- Reschedule alarms after device reboot -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+    <!-- Vibration for alarm alerts -->
+    <uses-permission android:name="android.permission.VIBRATE" />
+
+    <!-- Keep CPU awake while delivering alarm -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!-- Background notification delivery service -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
+    <!-- Required for exact-time medication alarms (Android 12+) -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+
+    <!-- Granted automatically for alarm/health apps — ensures exact timing on Android 14+ -->
+    <uses-permission android:name="android.permission.USE_EXACT_ALARM" />
+
+    <!-- Required to post notifications on Android 13+ -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+</manifest>

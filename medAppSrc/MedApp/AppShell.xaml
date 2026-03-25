@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="MedApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:views="clr-namespace:MedApp.Views"
+    Shell.FlyoutBehavior="Disabled"
+    Shell.TabBarBackgroundColor="{StaticResource Primary}"
+    Shell.TabBarForegroundColor="White"
+    Shell.TabBarUnselectedColor="#B3FFFFFF">
+
+    <TabBar>
+        <ShellContent
+            Title="Today"
+            ContentTemplate="{DataTemplate views:TodayPage}"
+            Route="today" />
+        <ShellContent
+            Title="Medications"
+            ContentTemplate="{DataTemplate views:MedicationListPage}"
+            Route="medications" />
+        <ShellContent
+            Title="History"
+            ContentTemplate="{DataTemplate views:HistoryPage}"
+            Route="history" />
+        <ShellContent
+            Title="Reports"
+            ContentTemplate="{DataTemplate views:ReportPage}"
+            Route="reports" />
+        <ShellContent
+            Title="Settings"
+            ContentTemplate="{DataTemplate views:SettingsPage}"
+            Route="settings" />
+    </TabBar>
+
+</Shell>

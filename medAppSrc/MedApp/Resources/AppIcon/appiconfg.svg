@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 456 456">
+    <!-- White medical cross (foreground layer of adaptive icon) -->
+    <rect x="183" y="80"  width="90" height="296" fill="white" rx="12"/>
+    <rect x="80"  y="183" width="296" height="90"  fill="white" rx="12"/>
+</svg>

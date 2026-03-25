@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MedApp.Views.AddEditMedicationPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:MedApp.ViewModels"
+    x:DataType="vm:AddEditMedicationViewModel"
+    Title="{Binding PageTitle}">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="16">
+
+            <!-- Validation error -->
+            <Label
+                Text="{Binding ValidationError}"
+                TextColor="{StaticResource Danger}"
+                FontSize="14"
+                IsVisible="{Binding ValidationError, Converter={StaticResource IsNotNullConverter}}" />
+
+            <!-- Medication details -->
+            <Label FontAttributes="Bold" FontSize="18" Text="Medication Details" />
+
+            <Entry
+                Placeholder="Name (e.g. Metformin 500 mg)"
+                Text="{Binding Name}" />
+
+            <Entry
+                Placeholder="Dosage (optional)"
+                Text="{Binding Dosage}" />
+
+            <Editor
+                AutoSize="TextChanges"
+                MinimumHeightRequest="80"
+                Placeholder="Notes (optional)"
+                Text="{Binding Notes}" />
+
+            <!-- Daily schedule times -->
+            <Label FontAttributes="Bold" FontSize="18" Text="Daily Schedule" />
+
+            <VerticalStackLayout
+                x:Name="TimePickerStack"
+                Spacing="8"
+                BindableLayout.ItemsSource="{Binding ScheduleTimes}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate x:DataType="x:TimeSpan">
+                        <Grid ColumnDefinitions="*,Auto" Margin="0,0,0,4">
+                            <TimePicker
+                                Grid.Column="0"
+                                Time="{Binding .}"
+                                PropertyChanged="OnTimePickerPropertyChanged" />
+                            <ImageButton
+                                Grid.Column="1"
+                                WidthRequest="36"
+                                HeightRequest="36"
+                                Padding="8"
+                                BackgroundColor="Transparent"
+                                Clicked="OnRemoveTimeClicked">
+                                <ImageButton.Source>
+                                    <FontImageSource
+                                        FontFamily="Arial"
+                                        Glyph="✕"
+                                        Color="{StaticResource Danger}"
+                                        Size="16" />
+                                </ImageButton.Source>
+                            </ImageButton>
+                        </Grid>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+
+            <Button
+                BackgroundColor="Transparent"
+                Command="{Binding AddTimeCommand}"
+                Text="+ Add another time"
+                TextColor="{StaticResource Primary}" />
+
+            <!-- Actions -->
+            <Button
+                BackgroundColor="{StaticResource Primary}"
+                Command="{Binding SaveCommand}"
+                Text="Save"
+                TextColor="White" />
+
+            <Button
+                BackgroundColor="Transparent"
+                Command="{Binding CancelCommand}"
+                Text="Cancel"
+                TextColor="{StaticResource Primary}" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

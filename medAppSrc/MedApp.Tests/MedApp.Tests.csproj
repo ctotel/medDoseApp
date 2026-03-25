@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <RootNamespace>MedApp.Tests</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <!-- Link source files from the main project that compile without full MAUI -->
+  <ItemGroup>
+    <Compile Include="..\MedApp\Models\DoseStatus.cs"   Link="LinkedSrc\Models\DoseStatus.cs" />
+    <Compile Include="..\MedApp\Models\Medication.cs"    Link="LinkedSrc\Models\Medication.cs" />
+    <Compile Include="..\MedApp\Models\Schedule.cs"      Link="LinkedSrc\Models\Schedule.cs" />
+    <Compile Include="..\MedApp\Models\DoseLog.cs"       Link="LinkedSrc\Models\DoseLog.cs" />
+    <Compile Include="..\MedApp\Models\ReportData.cs"    Link="LinkedSrc\Models\ReportData.cs" />
+    <Compile Include="..\MedApp\Data\MedicationRepository.cs" Link="LinkedSrc\Data\MedicationRepository.cs" />
+    <Compile Include="..\MedApp\Data\DoseLogRepository.cs"    Link="LinkedSrc\Data\DoseLogRepository.cs" />
+    <Compile Include="..\MedApp\Services\IClock.cs"                Link="LinkedSrc\Services\IClock.cs" />
+    <Compile Include="..\MedApp\Services\INotificationDispatcher.cs" Link="LinkedSrc\Services\INotificationDispatcher.cs" />
+    <Compile Include="..\MedApp\Services\IPreferencesProvider.cs"  Link="LinkedSrc\Services\IPreferencesProvider.cs" />
+    <Compile Include="..\MedApp\Services\NotificationService.cs"   Link="LinkedSrc\Services\NotificationService.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector"              Version="6.*" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk"          Version="17.*" />
+    <PackageReference Include="xunit"                           Version="2.*" />
+    <PackageReference Include="xunit.runner.visualstudio"       Version="2.*" />
+    <PackageReference Include="sqlite-net-pcl"                  Version="1.*" />
+    <PackageReference Include="SQLitePCLRaw.bundle_green"       Version="2.*" />
+  </ItemGroup>
+
+</Project>

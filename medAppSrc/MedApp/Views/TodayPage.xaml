@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MedApp.Views.TodayPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:MedApp.ViewModels"
+    xmlns:m="clr-namespace:MedApp.Models"
+    x:DataType="vm:TodayViewModel"
+    Title="Today">
+
+    <Grid RowDefinitions="Auto,*" Padding="0">
+
+        <!-- Summary header -->
+        <VerticalStackLayout Grid.Row="0" Padding="20,20,20,8" Spacing="4">
+            <Label FontAttributes="Bold" FontSize="22" Text="Today's Doses" />
+            <Label FontSize="14" Text="{Binding SummaryText}" TextColor="{StaticResource Muted}" />
+        </VerticalStackLayout>
+
+        <!-- Empty state -->
+        <Label
+            Grid.Row="1"
+            IsVisible="{Binding Doses.Count, Converter={StaticResource IsZeroConverter}}"
+            Text="No medications scheduled. Add one from the Medications tab."
+            TextColor="{StaticResource Muted}"
+            FontSize="14"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Padding="40" />
+
+        <!-- Dose cards -->
+        <RefreshView
+            Grid.Row="1"
+            Command="{Binding LoadCommand}"
+            IsRefreshing="{Binding IsRefreshing}">
+            <CollectionView ItemsSource="{Binding Doses}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="m:TodayDoseItem">
+                        <Border
+                            Margin="12,4"
+                            Padding="16"
+                            StrokeShape="RoundRectangle 12"
+                            Stroke="{StaticResource PrimaryLight}"
+                            StrokeThickness="1"
+                            BackgroundColor="White">
+                            <Grid RowDefinitions="Auto,Auto,Auto" ColumnDefinitions="*,Auto">
+                                <!-- Medication name + time -->
+                                <Label Grid.Row="0" Grid.Column="0"
+                                       FontAttributes="Bold" FontSize="17"
+                                       TextColor="{StaticResource PrimaryDark}"
+                                       Text="{Binding MedicationName}" />
+                                <Label Grid.Row="0" Grid.Column="1"
+                                       FontSize="15"
+                                       Text="{Binding TimeDisplay}"
+                                       TextColor="{StaticResource Primary}" />
+
+                                <!-- Dosage + status badge -->
+                                <Label Grid.Row="1" Grid.Column="0"
+                                       FontSize="13" Text="{Binding Dosage}"
+                                       TextColor="{StaticResource Muted}" />
+                                <Label Grid.Row="1" Grid.Column="1"
+                                       FontSize="13" FontAttributes="Bold"
+                                       Text="{Binding StatusText}"
+                                       TextColor="{Binding StatusColor}" />
+
+                                <!-- Action buttons -->
+                                <HorizontalStackLayout
+                                    Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+                                    Spacing="8" Margin="0,8,0,0">
+                                    <Button
+                                        Text="Take"
+                                        BackgroundColor="{StaticResource Success}"
+                                        TextColor="White"
+                                        HeightRequest="36" FontSize="13"
+                                        Padding="16,0"
+                                        CornerRadius="18"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:TodayViewModel}}, Path=TakeCommand}"
+                                        CommandParameter="{Binding ScheduleId}" />
+                                    <Button
+                                        Text="Snooze"
+                                        BackgroundColor="{StaticResource Warning}"
+                                        TextColor="White"
+                                        HeightRequest="36" FontSize="13"
+                                        Padding="16,0"
+                                        CornerRadius="18"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:TodayViewModel}}, Path=SnoozeCommand}"
+                                        CommandParameter="{Binding ScheduleId}" />
+                                    <Button
+                                        Text="Skip"
+                                        BackgroundColor="{StaticResource Muted}"
+                                        TextColor="White"
+                                        HeightRequest="36" FontSize="13"
+                                        Padding="16,0"
+                                        CornerRadius="18"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:TodayViewModel}}, Path=SkipCommand}"
+                                        CommandParameter="{Binding ScheduleId}" />
+                                </HorizontalStackLayout>
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+    </Grid>
+
+</ContentPage>

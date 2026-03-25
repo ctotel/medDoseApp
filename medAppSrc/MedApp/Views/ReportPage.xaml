@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MedApp.Views.ReportPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:MedApp.ViewModels"
+    xmlns:m="clr-namespace:MedApp.Models"
+    x:DataType="vm:ReportViewModel"
+    Title="Reports">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="16">
+
+            <Label FontAttributes="Bold" FontSize="22" Text="Adherence Reports" />
+
+            <!-- Daily / Weekly toggle -->
+            <HorizontalStackLayout Spacing="12">
+                <Label Text="Report type:" VerticalOptions="Center" />
+                <HorizontalStackLayout Spacing="4">
+                    <Label Text="Daily" VerticalOptions="Center" />
+                    <Switch IsToggled="{Binding IsWeekly}" />
+                    <Label Text="Weekly" VerticalOptions="Center" />
+                </HorizontalStackLayout>
+            </HorizontalStackLayout>
+
+            <!-- Date picker -->
+            <HorizontalStackLayout Spacing="12">
+                <Label Text="Start date:" VerticalOptions="Center" />
+                <DatePicker Date="{Binding SelectedDate}" />
+            </HorizontalStackLayout>
+
+            <!-- Generate button -->
+            <Button
+                Text="Generate Report"
+                BackgroundColor="{StaticResource Primary}"
+                TextColor="White"
+                Command="{Binding GenerateCommand}" />
+
+            <!-- Status -->
+            <Label
+                Text="{Binding StatusMessage}"
+                FontSize="15"
+                FontAttributes="Bold"
+                TextColor="{StaticResource Primary}" />
+
+            <!-- Report results (visible only when HasReport is true) -->
+            <VerticalStackLayout Spacing="12" IsVisible="{Binding HasReport}">
+
+                <!-- Summary card -->
+                <Border
+                    Padding="16"
+                    StrokeShape="RoundRectangle 12"
+                    Stroke="{StaticResource PrimaryLight}"
+                    StrokeThickness="1"
+                    BackgroundColor="White">
+                    <Grid RowDefinitions="Auto,Auto" ColumnDefinitions="*,*,*,*">
+                        <Label Grid.Row="0" Grid.Column="0" Text="Total" FontAttributes="Bold" FontSize="12" />
+                        <Label Grid.Row="0" Grid.Column="1" Text="Taken" FontAttributes="Bold" FontSize="12" />
+                        <Label Grid.Row="0" Grid.Column="2" Text="Missed" FontAttributes="Bold" FontSize="12" />
+                        <Label Grid.Row="0" Grid.Column="3" Text="Skipped" FontAttributes="Bold" FontSize="12" />
+                        <Label Grid.Row="1" Grid.Column="0" Text="{Binding Report.TotalDoses}" FontSize="20" />
+                        <Label Grid.Row="1" Grid.Column="1" Text="{Binding Report.TakenCount}" FontSize="20" TextColor="{StaticResource Success}" />
+                        <Label Grid.Row="1" Grid.Column="2" Text="{Binding Report.MissedCount}" FontSize="20" TextColor="{StaticResource Danger}" />
+                        <Label Grid.Row="1" Grid.Column="3" Text="{Binding Report.SkippedCount}" FontSize="20" TextColor="{StaticResource Muted}" />
+                    </Grid>
+                </Border>
+
+                <!-- Per-medication breakdown -->
+                <Label FontAttributes="Bold" FontSize="16" Text="Per Medication" />
+
+                <CollectionView ItemsSource="{Binding Report.Medications}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="m:MedicationReportLine">
+                            <Border
+                                Margin="0,3"
+                                Padding="12"
+                                StrokeShape="RoundRectangle 8"
+                                Stroke="{StaticResource PrimaryLight}"
+                                StrokeThickness="1"
+                                BackgroundColor="White">
+                                <Grid ColumnDefinitions="2*,*,*,*">
+                                    <Label Grid.Column="0" Text="{Binding MedicationName}" FontAttributes="Bold" FontSize="14" />
+                                    <Label Grid.Column="1" FontSize="13" TextColor="{StaticResource Success}">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding Taken}" />
+                                                <Span Text=" taken" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Grid.Column="2" FontSize="13" TextColor="{StaticResource Danger}">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding Missed}" />
+                                                <Span Text=" missed" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Grid.Column="3" FontSize="13" TextColor="{StaticResource Primary}">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding AdherencePercent}" />
+                                                <Span Text="%" />
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <!-- Export PDF -->
+                <Button
+                    Text="Export PDF"
+                    BackgroundColor="{StaticResource PrimaryDark}"
+                    TextColor="White"
+                    Command="{Binding ExportPdfCommand}" />
+
+            </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

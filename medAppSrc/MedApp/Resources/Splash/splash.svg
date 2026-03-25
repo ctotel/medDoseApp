@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+    <!-- Medical cross centered for splash screen -->
+    <rect x="51" y="16" width="26" height="96" fill="white" rx="6"/>
+    <rect x="16" y="51" width="96" height="26" fill="white" rx="6"/>
+</svg>
