@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MedApp.Views.HistoryPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:MedApp.ViewModels"
+    xmlns:m="clr-namespace:MedApp.Models"
+    x:DataType="vm:DoseHistoryViewModel"
+    Title="History">
+
+    <Grid RowDefinitions="Auto,*" Padding="0">
+
+        <!-- Date picker header -->
+        <HorizontalStackLayout Grid.Row="0" Padding="20,16" Spacing="12">
+            <Label Text="Date:" VerticalOptions="Center" FontSize="16" />
+            <DatePicker Date="{Binding SelectedDate}" FontSize="16" />
+        </HorizontalStackLayout>
+
+        <!-- Empty state -->
+        <Label
+            Grid.Row="1"
+            IsVisible="{Binding Logs.Count, Converter={StaticResource IsZeroConverter}}"
+            Text="No dose logs for this date."
+            TextColor="{StaticResource Muted}"
+            FontSize="14"
+            HorizontalOptions="Center"
+            VerticalOptions="Center"
+            Padding="40" />
+
+        <!-- Log list -->
+        <RefreshView
+            Grid.Row="1"
+            Command="{Binding LoadCommand}"
+            IsRefreshing="{Binding IsRefreshing}">
+            <CollectionView ItemsSource="{Binding Logs}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="m:HistoryItem">
+                        <Border
+                            Margin="12,4"
+                            Padding="14"
+                            StrokeShape="RoundRectangle 10"
+                            Stroke="{StaticResource PrimaryLight}"
+                            StrokeThickness="1"
+                            BackgroundColor="White">
+                            <Grid ColumnDefinitions="Auto,*,Auto">
+                                <!-- Time -->
+                                <Label Grid.Column="0"
+                                       Text="{Binding TimeDisplay}"
+                                       FontSize="15"
+                                       TextColor="{StaticResource Primary}"
+                                       WidthRequest="80" />
+                                <!-- Med name + dosage -->
+                                <VerticalStackLayout Grid.Column="1" Spacing="2">
+                                    <Label Text="{Binding MedicationName}"
+                                           FontAttributes="Bold" FontSize="15" />
+                                    <Label Text="{Binding Dosage}"
+                                           FontSize="12"
+                                           TextColor="{StaticResource Muted}" />
+                                </VerticalStackLayout>
+                                <!-- Status -->
+                                <Label Grid.Column="2"
+                                       Text="{Binding StatusText}"
+                                       FontAttributes="Bold"
+                                       FontSize="13"
+                                       TextColor="{Binding StatusColor}"
+                                       VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+    </Grid>
+
+</ContentPage>

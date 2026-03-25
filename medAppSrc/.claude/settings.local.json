@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node:*)",
+      "Bash(cd:*)",
+      "Read(//c/NextLevel-Dev/**)",
+      "Bash(npx create-expo-app@latest medAppSrc --template blank-typescript)",
+      "Bash(rm:*)",
+      "Read(//c/Program Files/Android/**)",
+      "Read(//c/Program Files \\(x86\\)/Android/**)",
+      "Read(//c/Users/craig/AppData/Local/Google/**)",
+      "Bash(reg query:*)",
+      "Bash(ls:*)",
+      "WebSearch",
+      "Bash(dotnet restore:*)",
+      "Bash(dotnet build:*)",
+      "Bash(dotnet test:*)",
+      "Bash(grep -E \"\\\\.\\(cs|xaml\\)$\")",
+      "Bash(dotnet publish:*)",
+      "Bash(find C:NextLevel-DevmedAppmedAppSrcMedApp -type f \\\\\\(-name *.json -o -name *TrimmerRoots* -o -name *RuntimeHostConfig* \\\\\\))",
+      "Bash(find /c/NextLevel-Dev/medApp/medAppSrc/MedApp/bin/Release -name *.apk -o -name *.aab)"
+    ]
+  }
+}

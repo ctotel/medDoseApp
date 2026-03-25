@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Application
+    x:Class="MedApp.App"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:conv="clr-namespace:MedApp.Converters">
+    <Application.Resources>
+        <ResourceDictionary>
+            <!-- Colours -->
+            <Color x:Key="Primary">#1565C0</Color>
+            <Color x:Key="PrimaryDark">#0D47A1</Color>
+            <Color x:Key="PrimaryLight">#E3F2FD</Color>
+            <Color x:Key="Danger">#C62828</Color>
+            <Color x:Key="Success">#2E7D32</Color>
+            <Color x:Key="Warning">#F57F17</Color>
+            <Color x:Key="Muted">#757575</Color>
+
+            <!-- Value converters -->
+            <conv:IsZeroConverter    x:Key="IsZeroConverter" />
+            <conv:IsNotNullConverter x:Key="IsNotNullConverter" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

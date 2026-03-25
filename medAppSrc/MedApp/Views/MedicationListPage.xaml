@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="MedApp.Views.MedicationListPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:MedApp.ViewModels"
+    x:DataType="vm:MedicationListViewModel"
+    Title="Medications">
+
+    <Grid RowDefinitions="*,Auto" Padding="0">
+
+        <!-- Empty state -->
+        <VerticalStackLayout
+            Grid.Row="0"
+            IsVisible="{Binding Medications.Count, Converter={StaticResource IsZeroConverter}}"
+            VerticalOptions="Center"
+            HorizontalOptions="Center"
+            Spacing="8"
+            Padding="40">
+            <Label
+                FontSize="20"
+                HorizontalTextAlignment="Center"
+                Text="No medications yet" />
+            <Label
+                FontSize="14"
+                HorizontalTextAlignment="Center"
+                Text="Tap the button below to add your first medication."
+                TextColor="{StaticResource Muted}" />
+        </VerticalStackLayout>
+
+        <!-- Medication list -->
+        <RefreshView
+            Grid.Row="0"
+            Command="{Binding LoadCommand}"
+            IsRefreshing="{Binding IsRefreshing}">
+            <CollectionView ItemsSource="{Binding Medications}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="vm:MedicationSummary">
+                        <SwipeView>
+                            <SwipeView.RightItems>
+                                <SwipeItems>
+                                    <SwipeItem
+                                        BackgroundColor="{StaticResource Danger}"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MedicationListViewModel}}, Path=DeleteCommand}"
+                                        CommandParameter="{Binding Id}"
+                                        Text="Delete" />
+                                </SwipeItems>
+                            </SwipeView.RightItems>
+
+                            <Border
+                                Margin="12,6"
+                                Padding="16"
+                                StrokeShape="RoundRectangle 12"
+                                Stroke="{StaticResource PrimaryLight}"
+                                StrokeThickness="1"
+                                BackgroundColor="White">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MedicationListViewModel}}, Path=EditCommand}"
+                                        CommandParameter="{Binding Id}" />
+                                </Border.GestureRecognizers>
+
+                                <Grid ColumnDefinitions="*,Auto" RowDefinitions="Auto,Auto">
+                                    <Label
+                                        Grid.Row="0" Grid.Column="0"
+                                        FontAttributes="Bold"
+                                        FontSize="17"
+                                        TextColor="{StaticResource PrimaryDark}"
+                                        Text="{Binding Name}" />
+                                    <Label
+                                        Grid.Row="0" Grid.Column="1"
+                                        FontSize="13"
+                                        TextColor="{StaticResource Muted}"
+                                        Text="{Binding Dosage}"
+                                        VerticalOptions="Center" />
+                                    <Label
+                                        Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                                        FontSize="13"
+                                        TextColor="{StaticResource Primary}"
+                                        Text="{Binding TimesDisplay}"
+                                        Margin="0,4,0,0" />
+                                </Grid>
+                            </Border>
+                        </SwipeView>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </RefreshView>
+
+        <!-- Add button -->
+        <Button
+            Grid.Row="1"
+            Margin="16"
+            BackgroundColor="{StaticResource Primary}"
+            Command="{Binding AddCommand}"
+            CornerRadius="28"
+            HeightRequest="56"
+            Text="+ Add Medication"
+            TextColor="White" />
+
+    </Grid>
+
+</ContentPage>
